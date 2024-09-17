@@ -45,3 +45,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::get('/test',function(Request $request){
+    //dd($request->headers->all());
+   // dd($request->headers->get('authorization'));
+    $response= new \Illuminate\Http\Response(['msg'=>'Second API response']);
+  
+        return $response ;
+});
+
+// Route::get('/test', function(Request $request){
+
+// 	dd($request->headers->all());
+// 	//dd($request->headers->get('Authorization'));
+
+// 	$response = new \Illuminate\Http\Response(json_encode(['msg' => 'Minha primeira resposta de API']));
+// 	$response->header('Content-Type', 'application/json');
+
+// 	return $response;
+// });
+
