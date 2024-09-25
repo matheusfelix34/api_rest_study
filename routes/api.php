@@ -53,14 +53,13 @@ Route::get('/test',function(Request $request){
         return $response ;
 });
 
-// Route::get('/test', function(Request $request){
 
-// 	dd($request->headers->all());
-// 	//dd($request->headers->get('Authorization'));
 
-// 	$response = new \Illuminate\Http\Response(json_encode(['msg' => 'Minha primeira resposta de API']));
-// 	$response->header('Content-Type', 'application/json');
+Route::get('/products',function(Request $request){
+   return \App\Models\Product::all();
+  
+  
+       
+});
 
-// 	return $response;
-// });
 
