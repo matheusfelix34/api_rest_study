@@ -55,11 +55,10 @@ Route::get('/test',function(Request $request){
 
 
 
-Route::get('/products',function(Request $request){
-   return \App\Models\Product::all();
-  
-  
-       
-});
+// Route::get('/products',function(Request $request){
+//    return \App\Models\Product::all();    
+// });
 
 
+// Route::get('/products','Api\\ProductController@index');
+Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index']);
