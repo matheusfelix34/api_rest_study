@@ -14,35 +14,7 @@ use App\Http\Controllers\ReportController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/cad_profile',function(Request $request){
-   
-        
-        $profileController = new ProfileController();
-        $profileController->store($request);
-        
-        return json_encode(1);
 
-
-  
-    });
-
-Route::post('/cad_report',function(Request $request){
-   
-        
-        $reportController = new ReportController();
-      
-        return json_encode($reportController->store($request));
-
-
-  
-    });
-
-
- 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 
 Route::get('/test',function(Request $request){
@@ -53,12 +25,9 @@ Route::get('/test',function(Request $request){
         return $response ;
 });
 
+Route::group(['prefix' => 'Api/'], function () {
 
+    Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index']);
 
-// Route::get('/products',function(Request $request){
-//    return \App\Models\Product::all();    
-// });
+});
 
-
-// Route::get('/products','Api\\ProductController@index');
-Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index']);
