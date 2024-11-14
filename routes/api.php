@@ -25,9 +25,12 @@ Route::get('/test',function(Request $request){
         return $response ;
 });
 
-Route::group(['prefix' => 'Api/'], function () {
+Route::group(['prefix' => 'products/'], function () {
 
-    Route::get('/products', [App\Http\Controllers\Api\ProductController::class, 'index']);
+    Route::get('/', [App\Http\Controllers\Api\ProductController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\Api\ProductController::class, 'show']);
+    Route::put('/{id}/{name}', [App\Http\Controllers\Api\ProductController::class, 'update']);
+    Route::post('/', [App\Http\Controllers\Api\ProductController::class, 'store']);
 
 });
 

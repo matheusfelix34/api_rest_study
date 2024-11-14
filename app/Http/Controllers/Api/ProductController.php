@@ -18,4 +18,38 @@ class ProductController extends Controller
     return response($this->product::all());
    }
 
+   public function store(Request $request){
+    $data =$request->all();
+    $product= $this->product->create($data);
+    return response()->json($product);
+
+   }
+
+   public function show($id){
+    $product=$this->product->find($id);
+     return response()->json($product);
+   }
+
+   public function update2($id,$name){
+    $product=$this->product->find($id);
+    $product->update(
+        ['name'=>$name]
+    );
+     return response()->json($product);
+   }
+
+    public function update(Request $request){
+
+    $data=$request->all();
+    $product=$this->product->find($data['id']);
+
+        $product->update(
+          $data
+        );
+
+    return response()->json($product);
+
+    }
+
+
 }
