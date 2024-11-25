@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Route::get('/profile','App\Http\Controllers\ProfileController@index')->name('profile');
-Route::resource('/profile', App\Http\Controllers\ProfileController::class);
-Route::resource('/report', App\Http\Controllers\ReportController::class);
+
+
 
 Route::get('/', function () {
     return view('home');

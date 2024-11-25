@@ -25,6 +25,8 @@ Route::get('/test',function(Request $request){
         return $response ;
 });
 
+Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+
 Route::group(['prefix' => 'products/'], function () {
 
     Route::get('/', [App\Http\Controllers\Api\ProductController::class, 'index']);
