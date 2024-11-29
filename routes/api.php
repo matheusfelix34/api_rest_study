@@ -32,7 +32,7 @@ Route::group(['prefix' => 'products/'], function () {
     Route::get('/', [App\Http\Controllers\Api\ProductController::class, 'index']);
     Route::get('/{id}', [App\Http\Controllers\Api\ProductController::class, 'show']);
     Route::put('/{id}/{name}', [App\Http\Controllers\Api\ProductController::class, 'update']);
-    Route::post('/', [App\Http\Controllers\Api\ProductController::class, 'store']);
+    Route::post('/', [App\Http\Controllers\Api\ProductController::class, 'store'])->middleware('auth.basic');
     Route::delete('/{id}',[App\Http\Controllers\Api\ProductController::class, 'delete']);
 
 

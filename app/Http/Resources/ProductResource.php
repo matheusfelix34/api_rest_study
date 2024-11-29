@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+
 class ProductResource extends JsonResource
 {
     /**
@@ -14,10 +15,19 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
+        //customizado  
+        return parent::toArray($request);
+
+        //nao customizado
         //return $this->resource->ToArray();
-        return [
+       /* return [
             'slug' => $this->slug
+        ];*/
+    }
+
+    public function with($request){
+        return [
+            'extra_info' => 'outra_data'
         ];
     }
 }

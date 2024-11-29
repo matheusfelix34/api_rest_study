@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class ProductController extends Controller
 
    public function index(){
     // return response($this->product::all());
-    return response($this->product::paginate(1));
+    
+    return new ProductCollection($this->product::all());
    }
 
    public function store(Request $request){
@@ -30,7 +32,7 @@ class ProductController extends Controller
    public function show($id){
     $product=$this->product->find($id);
     // return response()->json($product);
-    return new ProductResource($product);
+       return new ProductResource($product);
    }
 
    public function update2($id,$name){
