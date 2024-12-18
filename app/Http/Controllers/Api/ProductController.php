@@ -8,6 +8,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Repository\ProductRepository;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -41,7 +42,7 @@ class ProductController extends Controller
      // return new ProductCollection($products->paginate(10));
    }
 
-   public function store(Request $request){
+   public function store(ProductRequest $request){
     $data =$request->all();
     $product= $this->product->create($data);
     return response()->json($product);
