@@ -7,6 +7,7 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Repository\ProductRepository;
 
 class ProductController extends Controller
 {
@@ -16,10 +17,28 @@ class ProductController extends Controller
     $this->product = $product;
    }
 
-   public function index(){
-    // return response($this->product::all());
+   public function index(Request $request){
     
-    return new ProductCollection($this->product::all());
+    $products = $this->product;
+    $productRepository=new ProductRepository($products);
+     
+     
+      if ($request->has('conditions')) {
+        $productRepository->selectConditions($request->get('conditions'));
+      }
+      
+    
+      if ($request->has('fields')) {
+      
+        $productRepository->selectFilter($request->get('fields'));
+  
+      }
+     
+          
+
+    
+      return new ProductCollection($productRepository->getResult()->paginate(10));
+     // return new ProductCollection($products->paginate(10));
    }
 
    public function store(Request $request){
