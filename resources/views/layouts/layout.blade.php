@@ -8,9 +8,9 @@
   <header>
     <nav>
       <ul>
-        <li><a href="{{ route('home') }}">Home</a></li>
+        {{-- <li><a href="{{ route('home') }}">Home</a></li>
         <li><a href=" {{ url('/profile') }}">Profile</a></li>
-        <li><a href=" {{ url('/report') }}">Reports</a></li>
+        <li><a href=" {{ url('/report') }}">Reports</a></li> --}}
       </ul>
     </nav>
   </header>
