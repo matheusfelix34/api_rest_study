@@ -20,14 +20,7 @@ class ProductRepository
       
     }
 
-    public function set_teste($valor){
-        $this->teste = $valor;
-    }
 
-
-    public function get_teste(){
-        return $this->teste ;
-    }
 
     public  function selectFilter($fields){
         $this->model= $this->model->selectRaw($fields);

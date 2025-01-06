@@ -38,3 +38,15 @@ Route::group(['prefix' => 'products/'], function () {
 
 });
 
+
+
+Route::group(['prefix' => 'v1/'], function () {
+
+    Route::group(['prefix' => 'real-state/'], function () {
+   
+        Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
+   
+
+    });
+});
+
