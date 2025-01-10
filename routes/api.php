@@ -42,10 +42,14 @@ Route::group(['prefix' => 'products/'], function () {
 
 Route::group(['prefix' => 'v1/'], function () {
 
-    Route::group(['prefix' => 'real-state/'], function () {
+    Route::group(['prefix' => 'real-states'], function () {
    
         Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
-   
+        Route::get('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'show']);
+        Route::post('/', [App\Http\Controllers\Api\RealStateController::class, 'store']);
+        Route::put('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'update']);
+        Route::delete('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'destroy']);
+
 
     });
 });
