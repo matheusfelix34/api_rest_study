@@ -45,4 +45,6 @@ class User extends Authenticatable
     public function real_state(){
         return $this->hasMany(RealState::class);
     }
+
+    
 }

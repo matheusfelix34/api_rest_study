@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
 use Illuminate\Http\Request;
 
@@ -21,41 +23,53 @@ class RealStateController extends Controller
     }
     
 
-    public function store(Request $request){
+    public function store(RealStateRequest $request){
         $data = $request->all();
         try {
 
             $realState=$this->realState->create($data);
+
+            if(isset($data['categories']) || count($data['categories'])) {
+                $realState->categories()->sync($data['categories']);
+            }
 
             return response()->json(['data' => 
             
                     ['msg'=> 'Imovel cadastrado com sucesso!']
         ], 200) ;
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()],401) ;
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(),401) ;
         }
         
     }
 
-    public function update($id,Request $request){
+    public function update($id,RealStateRequest $request){
         $data = $request->all();
         try {
 
             
             $realState=$this->realState->findOrFail($id);
+
+            if(isset($data['categories']) || count($data['categories'])) {
+                $realState->categories()->sync($data['categories']);
+            }
+
             $realState->update($data);
+            
             return response()->json(['data' => 
             
                     ['msg'=> 'Imovel atualizado com sucesso!']
         ], 200) ;
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()],401) ;
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(),401) ;
         }
         
     }
 
-    public function destroy($id,Request $request){
-        $data = $request->all();
+    public function destroy($id){
+       
         try {
 
             
@@ -66,7 +80,8 @@ class RealStateController extends Controller
                     ['msg'=> 'Imovel deletado com sucesso!']
         ], 200) ;
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()],401) ;
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(),401) ;
         }
         
     }
@@ -77,7 +92,7 @@ class RealStateController extends Controller
 
             
             $realState=$this->realState->findOrFail($id);
-            $realState->update($data);
+
             return response()->json(['data' => 
             
                     ['msg'=> 'Imovel localizado com sucesso!',
@@ -86,7 +101,8 @@ class RealStateController extends Controller
                     ]
         ], 200) ;
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()],401) ;
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(),401) ;
         }
         
     }
