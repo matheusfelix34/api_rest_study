@@ -6,6 +6,7 @@ use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -31,17 +32,41 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(User $request){
+    public function store(Request $request){
         $data = $request->all();
-
+        
         if (!$request->has('password') || !$request->get('password')) {
             $message = new ApiMessages("É necessário informar uma senha para o usuários!");
             return response()->json($message->getMessage(),401) ;
         }
-        try {
 
+        if (!$request->has('profile') || !$request->get('profile')) {
+            $message = new ApiMessages("É necessário informar dados de perfil do usuário");
+            return response()->json($message->getMessage(),401) ;
+        }
+      
+        
+        $profile=$data['profile'];
+       
+      
+        Validator::make($profile,[
+             'phone'=> 'required',
+             'mobile_phone'=> 'required'
+        ],["campos não forão enviados"])->validate();
+        
+        try {
+            
+            
             $data['password']=bcrypt($data['password']);
+            $profile['social_networks']=serialize($data['profile']['social_networks']) ;
+
             $user=$this->user->create($data);
+
+           
+
+            $user->profile()->create(
+                $profile
+            );
 
             return response()->json(['data' => 
             
@@ -64,8 +89,8 @@ class UserController extends Controller
         try {
 
             
-            $user=$this->user->findOrFail($id);
-            $user->update($data);
+            $user=$this->user->with('profile')->findOrFail($id);
+            $user->profile->social_networks= unserialize($user->profile->social_networks);
             return response()->json(['data' => 
             
                     ['msg'=> 'Usuário localizado com sucesso!',
@@ -94,12 +119,38 @@ class UserController extends Controller
         }else {
             unset($data['password']);
         }
+
+
+        if (!$request->has('profile') || !$request->get('profile')) {
+            $message = new ApiMessages("É necessário informar dados de perfil do usuário");
+            return response()->json($message->getMessage(),401) ;
+        }
+      
         
+        $profile=$data['profile'];
+       
+       
+        Validator::make($profile,[
+            'phone'=> 'required',
+            'mobile_phone'=> 'required'
+        ],["campos não forão enviados"])->validate();
+
+     
         try {
 
             
             $user=$this->user->findOrFail($id);
+
+          
+            //dd($data['profile']['social_networks']);
+            $profile['social_networks']=serialize($data['profile']['social_networks']) ;
+           // dd($profile_social_networks);
+
             $user->update($data);
+            
+
+            $user->profile->update($profile);
+
             return response()->json(['data' => 
             
                     ['msg'=> 'Usuário atualizado com sucesso!']

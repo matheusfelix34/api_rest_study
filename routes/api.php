@@ -77,5 +77,17 @@ Route::group(['prefix' => 'v1/'], function () {
 
 
     });
+
+    Route::group(['prefix' => 'photos'], function () {
+   
+        /*Route::get('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'index']);
+        Route::get('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'show']);
+        Route::post('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'store']);
+       */
+        Route::put('set-thumb/{photoId}/{realStateId}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'setThumb']);
+        Route::delete('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'remove']);
+
+    });
+
 });
 
