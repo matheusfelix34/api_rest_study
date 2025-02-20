@@ -25,10 +25,10 @@ class RealStateController extends Controller
     
 
     public function store(Request $request){
-
+       
         $data = $request->all();
         $images=$request->file('images');
-      
+       
         try {
 
             $realState=$this->realState->create($data);
