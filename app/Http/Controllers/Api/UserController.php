@@ -41,21 +41,28 @@ class UserController extends Controller
         }
 
         if (!$request->has('profile') || !$request->get('profile')) {
-            $message = new ApiMessages("É necessário informar dados de perfil do usuário");
+            $message = new ApiMessages("É necessário informar dados de perfil do usuário!");
             return response()->json($message->getMessage(),401) ;
         }
       
         
         $profile=$data['profile'];
        
+        $validator=Validator::make($profile,[
+            'phone'=> 'required',
+            'mobile_phone'=> 'required'
+       ]);
       
-        Validator::make($profile,[
-             'phone'=> 'required',
-             'mobile_phone'=> 'required'
-        ],["campos não forão enviados"])->validate();
+        if ($validator->fails()) {
+            $message = new ApiMessages("É necessário informar os dados de contato do usuário!");
+            return response()->json($message->getMessage(),401) ;
+        }
         
         try {
-            
+       
+
+
+
             
             $data['password']=bcrypt($data['password']);
             $profile['social_networks']=serialize($data['profile']['social_networks']) ;
