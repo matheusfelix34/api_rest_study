@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function store(Request $request){
         $data = $request->all();
-        
+      
         if (!$request->has('password') || !$request->get('password')) {
             $message = new ApiMessages("É necessário informar uma senha para o usuários!");
             return response()->json($message->getMessage(),401) ;
@@ -65,7 +65,11 @@ class UserController extends Controller
 
             
             $data['password']=bcrypt($data['password']);
-            $profile['social_networks']=serialize($data['profile']['social_networks']) ;
+            
+            if(array_key_exists('social_networks',$profile)){
+                $profile['social_networks']=serialize($data['profile']['social_networks']) ;
+            }
+           
 
             $user=$this->user->create($data);
 

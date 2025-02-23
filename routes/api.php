@@ -42,6 +42,8 @@ Route::group(['prefix' => 'products/'], function () {
 
 Route::group(['prefix' => 'v1/'], function () {
 
+    Route::post('/login', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'login']);
+
     Route::group(['prefix' => 'real-states'], function () {
    
         Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
