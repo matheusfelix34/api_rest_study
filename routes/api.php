@@ -44,52 +44,56 @@ Route::group(['prefix' => 'v1/'], function () {
 
     Route::post('/login', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'login']);
 
-    Route::group(['prefix' => 'real-states'], function () {
+    Route::middleware(['jwt.auth'])->group(function(){
+
+        Route::group(['prefix' => 'real-states'], function () {
    
-        Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
-        Route::get('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'show']);
-        Route::post('/', [App\Http\Controllers\Api\RealStateController::class, 'store']);
-        Route::put('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'update']);
-        Route::delete('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'destroy']);
-
-
+            Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
+            Route::get('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'show']);
+            Route::post('/', [App\Http\Controllers\Api\RealStateController::class, 'store']);
+            Route::put('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'update']);
+            Route::delete('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'destroy']);
+    
+    
+        });
+    
+    
+        Route::group(['prefix' => 'users'], function () {
+       
+            Route::get('/', [App\Http\Controllers\Api\UserController::class, 'index']);
+            Route::get('/{id}', [App\Http\Controllers\Api\UserController::class, 'show']);
+            Route::post('/', [App\Http\Controllers\Api\UserController::class, 'store']);
+            Route::put('/{id}', [App\Http\Controllers\Api\UserController::class, 'update']);
+            Route::delete('/{id}', [App\Http\Controllers\Api\UserController::class, 'destroy']);
+    
+    
+        });
+    
+    
+        Route::group(['prefix' => 'categories'], function () {
+       
+            Route::get('/', [App\Http\Controllers\Api\CategoryController::class, 'index']);
+            Route::get('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
+            Route::post('/', [App\Http\Controllers\Api\CategoryController::class, 'store']);
+            Route::put('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
+            Route::delete('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'destroy']);
+            Route::get('/{id}/real_states', [App\Http\Controllers\Api\CategoryController::class, 'realStates']);
+    
+    
+        });
+    
+        Route::group(['prefix' => 'photos'], function () {
+       
+            /*Route::get('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'index']);
+            Route::get('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'show']);
+            Route::post('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'store']);
+           */
+            Route::put('set-thumb/{photoId}/{realStateId}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'setThumb']);
+            Route::delete('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'remove']);
+    
+        });
     });
-
-
-    Route::group(['prefix' => 'users'], function () {
-   
-        Route::get('/', [App\Http\Controllers\Api\UserController::class, 'index']);
-        Route::get('/{id}', [App\Http\Controllers\Api\UserController::class, 'show']);
-        Route::post('/', [App\Http\Controllers\Api\UserController::class, 'store']);
-        Route::put('/{id}', [App\Http\Controllers\Api\UserController::class, 'update']);
-        Route::delete('/{id}', [App\Http\Controllers\Api\UserController::class, 'destroy']);
-
-
-    });
-
-
-    Route::group(['prefix' => 'categories'], function () {
-   
-        Route::get('/', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-        Route::get('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'show']);
-        Route::post('/', [App\Http\Controllers\Api\CategoryController::class, 'store']);
-        Route::put('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'update']);
-        Route::delete('/{id}', [App\Http\Controllers\Api\CategoryController::class, 'destroy']);
-        Route::get('/{id}/real_states', [App\Http\Controllers\Api\CategoryController::class, 'realStates']);
-
-
-    });
-
-    Route::group(['prefix' => 'photos'], function () {
-   
-        /*Route::get('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'index']);
-        Route::get('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'show']);
-        Route::post('/', [App\Http\Controllers\Api\RealStatePhotoController::class, 'store']);
-       */
-        Route::put('set-thumb/{photoId}/{realStateId}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'setThumb']);
-        Route::delete('/{id}', [App\Http\Controllers\Api\RealStatePhotoController::class, 'remove']);
-
-    });
+    
 
 });
 
