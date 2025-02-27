@@ -43,6 +43,8 @@ Route::group(['prefix' => 'products/'], function () {
 Route::group(['prefix' => 'v1/'], function () {
 
     Route::post('/login', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'login']);
+    Route::get('/logout', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'logout']);
+    Route::get('/refresh', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'refresh']);
 
     Route::middleware(['jwt.auth'])->group(function(){
 
