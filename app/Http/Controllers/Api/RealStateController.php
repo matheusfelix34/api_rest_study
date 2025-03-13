@@ -6,6 +6,7 @@ use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 
@@ -20,17 +21,21 @@ class RealStateController extends Controller
     }
 
     public function index(){
-        return response()->json($this->realState->paginate('10'), 200) ;
+     
+        $realStates=auth('api')->user()->real_state();
+       
+        return response()->json($realStates->paginate('10'), 200) ;
     }
     
 
     public function store(Request $request){
-       
+        
         $data = $request->all();
         $images=$request->file('images');
        
         try {
 
+            $data['user_id']=auth('api')->user()->id;
             $realState=$this->realState->create($data);
 
             if(isset($data['categories']) || count($data['categories'])) {
@@ -66,12 +71,17 @@ class RealStateController extends Controller
     public function update($id,RealStateRequest $request){
        
         $data = $request->all();
+        
+
         $images=$request->file('images');
         try {
 
             
-            $realState=$this->realState->findOrFail($id);
-
+            
+            
+            $realState=auth('api')->user()->realState()->where('id',$id)->first();
+            
+            
             if(isset($data['categories']) || count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
             }
@@ -103,7 +113,7 @@ class RealStateController extends Controller
         }
         
     }
-
+    
     public function destroy($id){
        
         try {
@@ -127,7 +137,7 @@ class RealStateController extends Controller
         try {
 
             
-            $realState=$this->realState->with('photos')->findOrFail($id);
+            $realState=auth('api')->user()->real_state()->with('photos')->findOrFail($id);
 
             return response()->json(['data' => 
             
