@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+
 
 class LoginJwtController extends Controller
 {
@@ -15,12 +15,7 @@ class LoginJwtController extends Controller
        
         $credentials=$request->all(['email','password']);
 
-        $validado=Validator::make($credentials, [
-            'email'=> 'required', 'string', 'email',
-            'password'=> 'required', 'string'
-            ]
-        )->validate();
-
+    
 
 
         
