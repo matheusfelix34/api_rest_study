@@ -9,6 +9,8 @@ class RealStatePhoto extends Model
 {
     use HasFactory;
 
+    protected $table= 'real_state_photos';
+
     protected $fillable = [
             'photo',
             'is_thumb'

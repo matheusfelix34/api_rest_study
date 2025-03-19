@@ -6,6 +6,8 @@ use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;
+use App\Models\RealStateCategory;
+use App\Models\RealStatePhoto;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -70,6 +72,7 @@ class RealStateController extends Controller
 
     public function update($id,RealStateRequest $request){
        
+        abort(404,"de ruim");
         $data = $request->all();
         
 
@@ -79,7 +82,7 @@ class RealStateController extends Controller
             
             
             
-            $realState=auth('api')->user()->realState()->where('id',$id)->first();
+            $realState=auth('api')->user()->real_state()->where('id',$id)->firstOrFail();
             
             
             if(isset($data['categories']) || count($data['categories'])) {
@@ -119,7 +122,9 @@ class RealStateController extends Controller
         try {
 
             
-            $realState=$this->realState->findOrFail($id);
+            $realState=auth('api')->user()->real_state->where('id',$id)->firstOrFail();
+           RealStateCategory::where('real_state_id', $realState->id)->delete();
+           RealStatePhoto::where('real_state_id',$realState->id)->delete();
             $realState->delete();
             return response()->json(['data' => 
             
@@ -138,6 +143,8 @@ class RealStateController extends Controller
 
             
             $realState=auth('api')->user()->real_state()->with('photos')->findOrFail($id);
+           
+          
 
             return response()->json(['data' => 
             
