@@ -42,7 +42,7 @@ Route::group(['prefix' => 'products/'], function () {
 
 Route::group(['prefix' => 'v1/'], function () {
 
-    Route::get('/search', [App\Http\Controllers\Api\RealStateSearchController::class, 'search']);
+    Route::get('/search', [App\Http\Controllers\Api\RealStateSearchController::class, 'index']);
    
     Route::post('/login', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'login']);
     Route::get('/logout', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'logout']);
