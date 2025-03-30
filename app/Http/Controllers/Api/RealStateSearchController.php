@@ -23,12 +23,13 @@ class RealStateSearchController extends Controller
     public function index(Request $request)
     {
         //$realState = $this->realState->paginate(10);
-
+        /**/
         $repository = new RealStateRepository($this->realState);
 
-
+      
          
         if ($request->has('conditions')) {
+        //    dd($request->get('conditions'));
           $repository->selectConditions($request->get('conditions'));
         }
       
@@ -38,6 +39,8 @@ class RealStateSearchController extends Controller
           $repository->selectFilter($request->get('fields'));
          
         }
+        
+        $repository->setlocation($request->all(['state_id','city_id']));
 
         return response()->json([
             'data'=> $repository->getResult()->paginate(10)
