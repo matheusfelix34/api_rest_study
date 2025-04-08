@@ -43,6 +43,7 @@ Route::group(['prefix' => 'products/'], function () {
 Route::group(['prefix' => 'v1/'], function () {
 
     Route::get('/search', [App\Http\Controllers\Api\RealStateSearchController::class, 'index']);
+    Route::get('/search/{id}', [App\Http\Controllers\Api\RealStateSearchController::class, 'show']);
    
     Route::post('/login', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'login']);
     Route::get('/logout', [App\Http\Controllers\Api\Auth\LoginJwtController::class, 'logout']);
@@ -53,10 +54,10 @@ Route::group(['prefix' => 'v1/'], function () {
         Route::group(['prefix' => 'real-states'], function () {
    
             Route::get('/', [App\Http\Controllers\Api\RealStateController::class, 'index']);
-            Route::get('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'show']);
+            Route::get('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'show'])->name('real-state-show');
             Route::post('/', [App\Http\Controllers\Api\RealStateController::class, 'store']);
             Route::put('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'update']);
-            Route::delete('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'destroy']);
+            Route::delete('/{id}', [App\Http\Controllers\Api\RealStateController::class, 'destroy'])->name('real-state-delete');
     
     
         });

@@ -9,7 +9,7 @@ class RealState extends Model
 {
     use HasFactory;
 
-
+    protected     $appends = ['_links'];
     protected     $table = 'real_state';
 
     protected     $fillable = [
@@ -25,6 +25,26 @@ class RealState extends Model
             'property_area',
             'total_property_area',
     ];
+
+    public function getLinksAttribute(){
+        return [
+            'self' =>  [   
+                
+                'href'=> route('real-state-show',['id'=>$this->id]),
+                'rel'=> 'RealState'
+            ]
+            ,
+            'delete' =>  [   
+                
+                'href'=> route('real-state-delete',['id'=>$this->id]),
+                'rel'=> 'RealState'
+            ]
+            
+
+
+           
+        ];
+    }
     
     public function user(){
         return $this->belongsTo(User::class);

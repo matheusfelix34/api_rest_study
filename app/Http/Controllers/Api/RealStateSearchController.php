@@ -55,7 +55,10 @@ class RealStateSearchController extends Controller
      */
     public function show($id)
     {
-        //
+       
+        $realState = $this->realState->with('photos')->with('address')->findOrFail($id);
+
+        return $realState;
     }
 
   
